@@ -14,8 +14,8 @@ from csv import writer
 
 def write_new_user():
     # List
-    print("Enter the choise of user")
-    print("1 for food\n 2 for groceries\n 3 for cloth\n 4 for chocolate\n")
+    print("Enter the choise of user\n")
+    print("1 for food\n 2 for groceries\n 3 for cloth\n 4 for chocolate\n 5 for plants\n")
     val=input()
     row = ['user',val]
 
@@ -38,7 +38,7 @@ def plot_graph(output_array):
     print("oo")
     x = []
     y = []
-    n = ['brand1','b2','b3','b4','user']
+    n = ['app1','app2','app3','app4','app5','user']
     #initialisation of the list and the string
 
     for i in output_array:
@@ -48,25 +48,49 @@ def plot_graph(output_array):
     
     
     plt.grid()
-    plt.legend()
-    plt.scatter(x, y,color=['red','green','pink','purple','blue','black'],cmap=['a','b','c','d','e','user'])
+    plt.scatter(x, y,color=['red','green','pink','purple','blue','yellow'],marker = "^")
     for i, txt in enumerate(n):
         plt.annotate(txt, (x[i], y[i]))
     plt.show()
     #to display the graph
 
+def dot_product(a1,a2,b1,b2,index,simi):
+
+  ans = (a1 * b1) + (a2 * b2)
+  simi.append([ans,index])
+
+
+def predict(embedings):
+    simi = [ ]
+    a1 = embedings[5][0][0]
+    a2 = embedings[5][0][1]
+    for count,val in enumerate(embedings):
+        if count<5 :
+            b1 = val[0][0]
+            b2 = val[0][1]
+            dot_product(a1,a2,b1,b2,count,simi)
+    #print(simi)
+    max_value = max( simi )
+    #the maximum similarity is computed
+
+    max_index = simi.index( max_value )
+    #index of the maximum value is calculated
+    
+    print("the application ",max_index+1,"can be recommended")
+
+#write_new_user()
 model = Sequential()
-model.add(Embedding(5, 2, input_length=1))
+model.add(Embedding(6, 2, input_length=1))
 rate = pd.read_csv("embed_input.csv")
 
-rate.drop ( 'brands', axis='columns', inplace=True )
+rate.drop ( 'application', axis='columns', inplace=True )
 print(rate)
 input_array = np.array(rate)
 print(input_array)
 model.compile('rmsprop', 'mse')
 output_array = model.predict(input_array)
 
-#plot_graph(output_array)
+plot_graph(output_array)
 #print(output_array)
-write_new_user()
-print(rate)
+
+predict(output_array)
