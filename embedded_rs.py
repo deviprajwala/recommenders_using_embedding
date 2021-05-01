@@ -2,35 +2,56 @@
 print("hi")
 import numpy as np
 import pandas as pd
+import csv
 from keras.models import Sequential
 from keras.layers import Embedding 
 import matplotlib.pyplot as plt
+
+
+
+# Import writer class from csv module
+from csv import writer
+
+def write_new_user():
+    # List
+    print("Enter the choise of user")
+    print("1 for food\n 2 for groceries\n 3 for cloth\n 4 for chocolate\n")
+    val=input()
+    row = ['user',val]
+
+
+    # open the file in the write mode
+    f = open('embed_input.csv', 'a')
+
+    # create the csv writer
+    writer = csv.writer(f)
+
+    # write a row to the csv file
+    writer.writerow(row)
+
+    # close the file
+    f.close()
+	
+
 
 def plot_graph(output_array):
     print("oo")
     x = []
     y = []
+    n = ['brand1','b2','b3','b4','user']
     #initialisation of the list and the string
 
     for i in output_array:
         y.append( i[0][0] )
-        #similarity values are appended to the list y
-        x.append(i[0][1])
+        x.append( i[0][1] )
         
-        '''the two items are taken as strings and added and these values are appended to the list x, the item values are incremented by 1 as the item
-        number begins from zero in our program'''
-        #a ='item'
-        #reinitialisation of string
-    print(x,y)
-    ax = plt.gca()  # gca stands for 'get current axis'
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-    ax.xaxis.set_ticks_position('bottom')
-    ax.spines['bottom'].set_position(('data',0))
-    ax.yaxis.set_ticks_position('left')
-    ax.spines['left'].set_position(('data',0))
-
-    plt.scatter(x, y,color=['red','green','pink','purple','blue'])
+    
+    
+    plt.grid()
+    plt.legend()
+    plt.scatter(x, y,color=['red','green','pink','purple','blue','black'],cmap=['a','b','c','d','e','user'])
+    for i, txt in enumerate(n):
+        plt.annotate(txt, (x[i], y[i]))
     plt.show()
     #to display the graph
 
@@ -45,4 +66,7 @@ print(input_array)
 model.compile('rmsprop', 'mse')
 output_array = model.predict(input_array)
 
-plot_graph(output_array)
+#plot_graph(output_array)
+#print(output_array)
+write_new_user()
+print(rate)
