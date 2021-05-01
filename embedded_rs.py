@@ -55,6 +55,15 @@ def plot_graph(output_array):
         plt.annotate(txt, (x[i], y[i]))
     #for displaying the string along with the points in the graph
 
+    plt.xlabel('feature1')
+    #for the label along the x axis
+
+    plt.ylabel('feature2')
+    #for the label along the y axis
+
+    plt.title('graph showing similarity of applications and a user')
+    #for the title of the graph
+
     plt.show()
     #to display the graph
 
